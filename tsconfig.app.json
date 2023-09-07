@@ -1,0 +1,22 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "include": [
+    "src/**/*.vue",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "typed-router.d.ts",
+    "auto-imports.d.ts",
+    "components.d.ts"
+  ],
+  "compilerOptions": {
+    "types": ["vite/client"],
+    "skipLibCheck": false,
+    "jsxImportSource": "",
+    // "moduleResolution": "Node",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "element-ui-helper": ["./src/components"]
+    }
+  }
+}

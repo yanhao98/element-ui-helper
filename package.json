@@ -1,6 +1,6 @@
 {
   "name": "element-ui-helper",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "packageManager": "pnpm@8.6.8",
   "description": "A helper for element-ui",
   "author": "",
@@ -22,6 +22,7 @@
   "module": "./dist/index.mjs",
   "typings": "types/index.d.ts",
   "devDependencies": {
+    "@tsconfig/node18": "^18.2.1",
     "@types/node": "^20.5.9",
     "@vitejs/plugin-vue2": "^2.2.0",
     "@vitejs/plugin-vue2-jsx": "^1.1.0",
@@ -33,7 +34,6 @@
     "vue-tsc": "^1.8.10"
   },
   "dependencies": {
-    "@tsconfig/node18": "^18.2.1",
     "element-ui": "^2.15.14",
     "vue": "^2.7.14"
   },

@@ -5,9 +5,6 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  '@tsconfig/node18':
-    specifier: ^18.2.1
-    version: 18.2.1
   element-ui:
     specifier: ^2.15.14
     version: 2.15.14(vue@2.7.14)
@@ -16,6 +13,9 @@ dependencies:
     version: 2.7.14
 
 devDependencies:
+  '@tsconfig/node18':
+    specifier: ^18.2.1
+    version: 18.2.1
   '@types/node':
     specifier: ^20.5.9
     version: 20.5.9
@@ -667,7 +667,7 @@ packages:
 
   /@tsconfig/node18@18.2.1:
     resolution: {integrity: sha512-RDDZFuofwkcKpl8Vpj5wFbY+H53xOtqK7ckEL1sXsbPwvKwDdjQf3LkHbtt9sxIHn9nWIEwkmCwBRZ6z5TKU2A==}
-    dev: false
+    dev: true
 
   /@types/argparse@1.0.38:
     resolution: {integrity: sha512-ebDJ9b0e702Yr7pWgB0jzm+CX4Srzz8RcXtLJDJB+BSccqMa36uyH/zUsSYao5+BD1ytv3k3rPYCq4mAE1hsXA==}

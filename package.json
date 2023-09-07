@@ -2,7 +2,7 @@
   "name": "element-ui-helper",
   "version": "1.0.1",
   "packageManager": "pnpm@8.6.8",
-  "description": "",
+  "description": "A helper for element-ui",
   "author": "",
   "scripts": {
     "dev": "vite",

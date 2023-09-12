@@ -1,190 +1,199 @@
+/**
+ * 参开：
+ *  https://tdesign.tencent.com/vue/components/dialog?tab=api
+ *  https://tdesign.tencent.com/vue/global-configuration
+ *  https://cn.attojs.org/guide/documentation/globalOptions.html
+ */
+import type { ButtonProps, FunctionDialogOptions, DialogOptionsRequired } from './types'
 import { Dialog as ElDialog, Button as ElButton } from 'element-ui'
-import Vue, { h } from 'vue'
-import type { IDialogCtx, FunctionDialogButton, FunctionDialogOptions } from './types'
+import Vue from 'vue'
+import { renderContent, renderTNodeJSX } from '../utils/render-tnode'
 
-export class FunctionDialog<DialogCtxType = any> {
-  title
-  width
-  customClass
-  showClose
-  closeOnClickModal
-  closeOnPressEscape
-  content
-  contentProps
-  decorator
-  decoratorProps
-  onOpen
-  buttons: FunctionDialogButton<DialogCtxType>[]
-  private _dialogApp
+const DEFAULT_OPTIONS: DialogOptionsRequired = {
+  title: true,
+  width: undefined,
+  customClass: undefined,
+  showClose: true,
+  closeOnClickModal: true,
+  closeOnPressEscape: true,
+  content: undefined,
+  confirmBtn: undefined,
+  confirmLoading: false,
+  onConfirm: undefined,
+  cancelBtn: undefined,
+  footer: true,
+  // footerBtns: undefined,
+}
 
-  constructor(options: FunctionDialogOptions<DialogCtxType>) {
-    this.title = options.title
-    this.content = options.content
-    this.contentProps = options.contentProps
-    this.decorator = options.decorator
-    this.decoratorProps = options.decoratorProps
-    this.width = options.width
-    this.customClass = options.customClass
-    this.showClose = options.showClose
-    this.closeOnClickModal = options.closeOnClickModal
-    this.closeOnPressEscape = options.closeOnPressEscape
-    this.onOpen = options.onOpen
-    this.buttons = options.buttons || []
-    this._dialogApp = new this.#DialogAppConstructor({})
-  }
+const DEFAULT_BUTTON_PROPS: ButtonProps = {}
 
-  get #DialogAppConstructor() {
-    const instance = this
+const DEFAULT_CONFIRM_BUTTON_PROPS: ButtonProps = {
+  type: 'primary',
+}
 
-    return Vue.extend({
-      name: `FunctionDialogApp`,
-      data: () => ({
-        isVisible: false,
-        buttonLoading: { ...instance.buttons.map(() => false) },
-      }),
-      created() {
-        // console.debug(`[FunctionDialog] App created`)
-      },
-      mounted() {
-        // console.debug(`[FunctionDialog] App mounted`)
-      },
-      destroyed() {
-        // console.debug(`[FunctionDialog] App destroyed`)
-      },
-      render() {
-        // console.debug(`[FunctionDialog] renderApp this.isVisible :>> `, this.isVisible)
-        const appInstance = this
+function setGlobalOptions(config: {
+  dialogOptions?: FunctionDialogOptions
+  buttonProps?: ButtonProps
+  confirmButtonProps?: ButtonProps
+}) {
+  Object.assign(DEFAULT_OPTIONS, config.dialogOptions)
+  Object.assign(DEFAULT_BUTTON_PROPS, config.buttonProps)
+  Object.assign(DEFAULT_CONFIRM_BUTTON_PROPS, config.confirmButtonProps)
+}
 
-        // 弹窗内容。
-        const resolveComponent = () => {
-          const content = instance.content
+function createDialog(options: FunctionDialogOptions) {
+  const DialogConstructor = Vue.extend({
+    name: 'FunctionDialogRoot',
+    data: () => ({
+      ...DEFAULT_OPTIONS,
+      ...options,
+      visible: false,
+      // destoryAfterClose: false,
+    }),
+    methods: {
+      getConfirmBtn() {
+        if (this.confirmBtn === null) return null
 
-          if (typeof content === 'string') {
-            return content
-          } else if (typeof content === 'function') {
-            return (content as Function)()
-          } else {
-            return h(content, {
-              props: {
-                dialog: instance,
-                ...instance.contentProps,
-              },
-            })
-          }
-        }
-
-        // 弹窗按钮。
-        const buttonsContent = instance.buttons.map((button, index) => (
+        return (
           <ElButton
             props={{
-              ...button,
-              disabled: Object.values(appInstance.buttonLoading).some(Boolean),
-              loading: appInstance.buttonLoading[index],
+              ...DEFAULT_BUTTON_PROPS,
+              ...DEFAULT_CONFIRM_BUTTON_PROPS,
+              loading: this.confirmLoading,
             }}
-            onClick={async () => {
-              let result = button.onClick?.(instance._dialogCtx)
+            onClick={() => {
+              const result = this.onConfirm?.()
               if (result instanceof Promise) {
-                appInstance.buttonLoading[index] = true
-                try {
-                  result = await result
-                } finally {
-                  appInstance.buttonLoading[index] = false
-                }
-              }
-              if (result !== false) {
-                appInstance.isVisible = false
+                this.confirmLoading = true
+                result.finally(() => {
+                  this.confirmLoading = false
+                })
               }
             }}
           >
-            {button.text}
+            {this.confirmBtn || '确定'}
           </ElButton>
-        ))
+        )
+      },
+      getCancelBtn() {
+        if (this.cancelBtn === null) return null
 
-        let appContent = (
-          <ElDialog
+        return (
+          <ElButton
             props={{
-              visible: appInstance.isVisible,
-              title: instance.title,
-              width: instance.width,
-              showClose: instance.showClose,
-              closeOnClickModal: instance.closeOnClickModal,
-              closeOnPressEscape: instance.closeOnPressEscape,
-              customClass: instance.customClass,
+              ...DEFAULT_BUTTON_PROPS,
             }}
-            on={{
-              'update:visible': (visible: boolean) => {
-                appInstance.isVisible = visible
-              },
-              open: () => {
-                // console.debug(`[FunctionDialog][ElDialog] onOpen`)
-                instance._handleOnOpen()
-              },
-              opened: () => {
-                // console.debug(`[FunctionDialog][ElDialog] onOpened`)
-              },
-              close: () => {
-                // console.debug(`[FunctionDialog][ElDialog] onClose`)
-              },
-              closed: () => {
-                // console.debug(`[FunctionDialog][ElDialog] onClosed`)
-                instance._handleClosed()
-              },
+            onClick={() => {
+              this.visible = false
             }}
           >
-            <template slot="default">{resolveComponent()}</template>
-
-            <template slot="footer">{buttonsContent}</template>
-          </ElDialog>
+            {this.cancelBtn || '取消'}
+          </ElButton>
         )
+      },
+      getFooter() {
+        const defaultFooter = [this.getCancelBtn(), this.getConfirmBtn()]
+        const footerContent = renderTNodeJSX(this, 'footer', defaultFooter)
+        // const footer = this.footer ? footerContent : null
+        return footerContent
+      },
+    },
+    created() {
+      // console.debug(`[FunctionDialog] App created`)
+    },
+    mounted() {
+      // console.debug(`[FunctionDialog] App mounted`)
+    },
+    destroyed() {
+      // console.debug(`[FunctionDialog] App destroyed`)
+    },
+    beforeDestroy() {
+      // this.$el.parentNode?.removeChild?.(this.$el)
+    },
+    render() {
+      const defaultTitle = ''
+      const title = renderTNodeJSX(this, 'title', defaultTitle)
 
-        if (instance.decorator) {
-          appContent = h(
-            instance.decorator,
-            {
-              props: {
-                dialog: instance,
-                ...instance.decoratorProps,
-              },
+      const content = renderContent(this, 'default', 'content')
+
+      const footer = this.getFooter()
+
+      return (
+        <ElDialog
+          ref="dialogRef"
+          props={{
+            visible: this.visible,
+            width: this.width,
+            showClose: this.showClose,
+            closeOnClickModal: this.closeOnClickModal,
+            closeOnPressEscape: this.closeOnPressEscape,
+            customClass: this.customClass,
+          }}
+          on={{
+            'update:visible': (visible: boolean) => {
+              this.visible = visible
             },
-            [appContent]
-          )
+            open: () => {
+              // console.debug(`[FunctionDialog][ElDialog] onOpen`)
+            },
+            opened: () => {
+              // console.debug(`[FunctionDialog][ElDialog] onOpened`)
+            },
+            close: () => {
+              // console.debug(`[FunctionDialog][ElDialog] onClose`)
+            },
+            closed: () => {
+              // console.debug(`[FunctionDialog][ElDialog] onClosed`)
+              /* if (this.destoryAfterClose) {
+                this.$destroy()
+                this.$el.parentNode?.removeChild?.(this.$el)
+              } */
+            },
+          }}
+        >
+          <template slot="title">
+            <span class="el-dialog__title">{title}</span>
+          </template>
+
+          <template slot="default">{content}</template>
+
+          <template slot="footer">{footer}</template>
+        </ElDialog>
+      )
+    },
+  })
+
+  const dialog = new DialogConstructor().$mount()
+  dialog.visible = true
+  document.body.appendChild(dialog.$el)
+
+  return {
+    show() {
+      dialog.visible = true
+    },
+    hide() {
+      dialog.visible = false
+    },
+    destroy() {
+      ;(async function () {
+        if (dialog.visible) {
+          dialog.visible = false
+          await new Promise((resolve) => {
+            ;(dialog.$refs.dialogRef as ElDialog).$once('closed', resolve)
+          })
         }
 
-        return appContent
-      },
-    })
-  }
-
-  open() {
-    if (!this._dialogApp.$el) {
-      this._dialogApp.$mount()
-      document.body.appendChild(this._dialogApp.$el)
-    }
-    this._dialogApp.isVisible = true
-  }
-
-  close() {
-    this._dialogApp.isVisible = false
-  }
-
-  _handleClosed() {
-    // console.debug(`[FunctionDialog] _handleClosed`)
-    this._dialogApp.$destroy()
-    this._dialogApp.$el.parentNode!.removeChild(this._dialogApp.$el)
-  }
-
-  protected _handleOnOpen() {
-    // console.debug(`[FunctionDialog] _handleOnOpen`)
-    this.onOpen?.()
-  }
-
-  protected get _dialogCtx() {
-    return {
-      dialog: this,
-    } as DialogCtxType
+        dialog.$destroy()
+        dialog.$el.parentNode?.removeChild?.(dialog.$el)
+      })()
+    },
+    update(options: FunctionDialogOptions) {
+      Object.assign(dialog, options)
+    },
+    setConfirmLoading: (val: boolean) => {
+      dialog.confirmLoading = val
+    },
   }
 }
 
-export const createFunctionDialog = (options: FunctionDialogOptions<IDialogCtx>) => {
-  return new FunctionDialog(options)
-}
+export { setGlobalOptions, createDialog }

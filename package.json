@@ -1,6 +1,6 @@
 {
   "name": "element-ui-helper",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "packageManager": "pnpm@8.6.8",
   "description": "A helper for element-ui",
   "author": "",
@@ -23,7 +23,8 @@
   "typings": "types/index.d.ts",
   "devDependencies": {
     "@tsconfig/node18": "^18.2.1",
-    "@types/node": "^20.5.9",
+    "@types/lodash": "^4.14.198",
+    "@types/node": "^20.6.0",
     "@vitejs/plugin-vue2": "^2.2.0",
     "@vitejs/plugin-vue2-jsx": "^1.1.0",
     "@vue/babel-helper-vue-jsx-merge-props": "^1.4.0",
@@ -35,6 +36,7 @@
   },
   "dependencies": {
     "element-ui": "^2.15.14",
+    "lodash": "^4.17.21",
     "vue": "^2.7.14"
   },
   "stackblitz": {

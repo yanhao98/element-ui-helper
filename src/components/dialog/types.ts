@@ -38,6 +38,10 @@ export interface DialogOptionsRequired {
    * 底部操作按钮，如果有值，则会覆盖默认的“确认”和“取消”按钮
    */
   // footerBtns: Array<FooterButtonProps> | undefined
+  /**
+   * 关闭事件，点击取消按钮、点击关闭按钮、点击蒙层、按下 ESC 等场景下触发
+   */
+  onClose: (() => void) | undefined
 }
 
 export type ButtonProps = Partial<Omit<ElButton, keyof ElementUIComponent>>

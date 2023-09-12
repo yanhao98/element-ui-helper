@@ -92,6 +92,9 @@ const dialog = createDialog({
   onConfirm,
   cancelBtn: 'Cancel...',
   confirmBtn: null,
+  onClose() {
+    console.debug('onClose')
+  },
 })
 setTimeout(() => {
   dialog.update({

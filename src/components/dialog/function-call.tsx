@@ -22,7 +22,7 @@ const DEFAULT_OPTIONS: DialogOptionsRequired = {
   onConfirm: undefined,
   cancelBtn: undefined,
   footer: true,
-  // footerBtns: undefined,
+  onClose: undefined,
 }
 
 const DEFAULT_BUTTON_PROPS: ButtonProps = {}
@@ -140,7 +140,7 @@ function createDialog(options: FunctionDialogOptions) {
               // console.debug(`[FunctionDialog][ElDialog] onOpened`)
             },
             close: () => {
-              // console.debug(`[FunctionDialog][ElDialog] onClose`)
+              this.onClose?.()
             },
             closed: () => {
               // console.debug(`[FunctionDialog][ElDialog] onClosed`)

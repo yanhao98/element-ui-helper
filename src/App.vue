@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <component :is="comptMap['dialog-example']" />
+    <component :is="comptMap['message-box-example']" />
+    <!-- <component :is="comptMap['use-pagination-element']" /> -->
+    <!-- <component :is="comptMap['dialog-example']" /> -->
   </div>
 </template>
 

@@ -3,7 +3,7 @@ import type { ElementUIComponent } from 'element-ui/types/component'
 import type { ElDialog } from 'element-ui/types/dialog'
 import type { TNode } from '../common'
 
-export type FunctionDialogOptions = Partial<DialogOptionsRequired>
+export type DialogOptions = Partial<DialogOptionsRequired>
 
 /**
  * Required 的目的是解决 dialog.update 不更新的问题。因为 Vue 的 data 如果初始化没有值响应式会失效

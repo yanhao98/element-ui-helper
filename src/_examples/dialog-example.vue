@@ -5,21 +5,9 @@
 </template>
 
 <script setup lang="tsx">
-import { createDialog, setGlobalOptions } from '@/components'
-import type { FunctionDialogOptions } from '@/components'
+import { createDialog } from 'element-ui-helper'
+import type { DialogOptions } from 'element-ui-helper'
 import { defineComponent, ref } from 'vue'
-
-setGlobalOptions({
-  dialogOptions: {
-    showClose: false,
-  },
-  buttonProps: {
-    plain: true,
-  },
-  confirmButtonProps: {
-    round: true,
-  },
-})
 
 const ContentComponent = defineComponent({
   name: 'ContentComponent',
@@ -42,17 +30,17 @@ const ContentComponent = defineComponent({
   },
 })
 
-let title: FunctionDialogOptions['title']
+let title: DialogOptions['title']
 title = false
 title = '标题-字符串'
 
-let content: FunctionDialogOptions['content']
+let content: DialogOptions['content']
 content = '内容-字符串'
 content = (h) => h('div', '内容-h函数')
 content = () => '内容-函数'
 content = () => <ContentComponent foo="bar" />
 
-let footer: FunctionDialogOptions['footer']
+let footer: DialogOptions['footer']
 const confirmLoading = ref(false)
 footer = () => [
   <el-button>取消</el-button>,
@@ -72,7 +60,7 @@ footer = () => [
 footer = false
 footer = true
 
-let onConfirm: FunctionDialogOptions['onConfirm']
+let onConfirm: DialogOptions['onConfirm']
 onConfirm = () => {
   console.debug('onConfirm-void')
   dialog.setConfirmLoading(true)

@@ -42,7 +42,13 @@ export default defineConfig({
       entry: path.resolve(__dirname, 'src/components/index.ts'),
     },
     rollupOptions: {
-      external: ['vue', 'element-ui', '@vue/babel-helper-vue-jsx-merge-props'],
+      external: [
+        'vue',
+        'element-ui',
+        '@vue/babel-helper-vue-jsx-merge-props',
+        'vue-request' /* , 'vue-demi' */,
+        'lodash',
+      ],
       output: {
         /* globals: {
           vue: 'Vue',

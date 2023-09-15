@@ -1,51 +1,18 @@
 /**
- * 参开：
+ * 参考：
  *  https://tdesign.tencent.com/vue/components/dialog?tab=api
- *  https://tdesign.tencent.com/vue/global-configuration
- *  https://cn.attojs.org/guide/documentation/globalOptions.html
  */
-import type { ButtonProps, FunctionDialogOptions, DialogOptionsRequired } from './types'
-import { Dialog as ElDialog, Button as ElButton } from 'element-ui'
+import { Button as ElButton, Dialog as ElDialog } from 'element-ui'
 import Vue from 'vue'
+import { GLOBAL_CONFIG } from '../config'
 import { renderContent, renderTNodeJSX } from '../utils/render-tnode'
+import type { DialogOptions } from './types'
 
-const DEFAULT_OPTIONS: DialogOptionsRequired = {
-  title: true,
-  width: undefined,
-  customClass: undefined,
-  showClose: true,
-  closeOnClickModal: true,
-  closeOnPressEscape: true,
-  content: undefined,
-  confirmBtn: undefined,
-  confirmLoading: false,
-  onConfirm: undefined,
-  cancelBtn: undefined,
-  footer: true,
-  onClose: undefined,
-}
-
-const DEFAULT_BUTTON_PROPS: ButtonProps = {}
-
-const DEFAULT_CONFIRM_BUTTON_PROPS: ButtonProps = {
-  type: 'primary',
-}
-
-function setGlobalOptions(config: {
-  dialogOptions?: FunctionDialogOptions
-  buttonProps?: ButtonProps
-  confirmButtonProps?: ButtonProps
-}) {
-  Object.assign(DEFAULT_OPTIONS, config.dialogOptions)
-  Object.assign(DEFAULT_BUTTON_PROPS, config.buttonProps)
-  Object.assign(DEFAULT_CONFIRM_BUTTON_PROPS, config.confirmButtonProps)
-}
-
-function createDialog(options: FunctionDialogOptions) {
+function createDialog(options: DialogOptions) {
   const DialogConstructor = Vue.extend({
     name: 'FunctionDialogRoot',
     data: () => ({
-      ...DEFAULT_OPTIONS,
+      ...GLOBAL_CONFIG.dialog,
       ...options,
       visible: false,
       // destoryAfterClose: false,
@@ -57,8 +24,8 @@ function createDialog(options: FunctionDialogOptions) {
         return (
           <ElButton
             props={{
-              ...DEFAULT_BUTTON_PROPS,
-              ...DEFAULT_CONFIRM_BUTTON_PROPS,
+              ...GLOBAL_CONFIG.button,
+              ...GLOBAL_CONFIG.confirm,
               loading: this.confirmLoading,
             }}
             onClick={() => {
@@ -81,7 +48,7 @@ function createDialog(options: FunctionDialogOptions) {
         return (
           <ElButton
             props={{
-              ...DEFAULT_BUTTON_PROPS,
+              ...GLOBAL_CONFIG.button,
             }}
             onClick={() => {
               this.visible = false
@@ -187,7 +154,7 @@ function createDialog(options: FunctionDialogOptions) {
         dialog.$el.parentNode?.removeChild?.(dialog.$el)
       })()
     },
-    update(options: FunctionDialogOptions) {
+    update(options: DialogOptions) {
       Object.assign(dialog, options)
     },
     setConfirmLoading: (val: boolean) => {
@@ -196,4 +163,4 @@ function createDialog(options: FunctionDialogOptions) {
   }
 }
 
-export { setGlobalOptions, createDialog }
+export { createDialog }

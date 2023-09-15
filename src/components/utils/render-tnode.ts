@@ -3,8 +3,8 @@
  */
 import { h } from 'vue'
 import type { ScopedSlotReturnValue, VNode } from 'vue/types/vnode.d.ts'
-import camelCase from 'lodash/camelCase'
-import kebabCase from 'lodash/kebabCase'
+import { camelCase } from 'lodash'
+import { kebabCase } from 'lodash'
 
 export type VmType = Vue
 

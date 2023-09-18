@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>message-box-example.vue</h1>
     <el-button type="" @click="throwFn">throwFn</el-button>
     <el-button type="" @click="showFn">showFn</el-button>
   </div>
@@ -11,7 +10,7 @@ import { messageBoxConfirm } from 'element-ui-helper'
 import { onMounted } from 'vue'
 
 onMounted(function () {
-  showFn()
+  // showFn()
 })
 
 async function showFn() {

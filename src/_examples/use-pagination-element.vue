@@ -18,16 +18,13 @@ const { paginationAttrs, paginationEvents, data, loading, changeCurrent } = useP
 
 <template>
   <div>
-    <h1>use-pagination-element.vue</h1>
     <!-- {{ { data } }} -->
-    <el-card>
-      <el-button @click="changeCurrent(1)">changeCurrent(1)</el-button>
-      <el-table :data="data?.list" border v-loading="loading">
-        <el-table-column prop="col1" label="col1"></el-table-column>
-        <el-table-column prop="col2" label="col2"></el-table-column>
-      </el-table>
-      <el-pagination v-bind="paginationAttrs" v-on="paginationEvents" />
-    </el-card>
+    <el-button @click="changeCurrent(1)">changeCurrent(1)</el-button>
+    <el-table :data="data?.list" border v-loading="loading">
+      <el-table-column prop="col1" label="col1"></el-table-column>
+      <el-table-column prop="col2" label="col2"></el-table-column>
+    </el-table>
+    <el-pagination v-bind="paginationAttrs" v-on="paginationEvents" />
   </div>
 </template>
 

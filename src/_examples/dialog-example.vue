@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>dialog-example.vue</h1>
+    <el-button @click="open">open</el-button>
   </div>
 </template>
 
@@ -30,66 +30,68 @@ const ContentComponent = defineComponent({
   },
 })
 
-let title: DialogOptions['title']
-title = false
-title = '标题-字符串'
+function open() {
+  let title: DialogOptions['title']
+  title = false
+  title = '标题-字符串'
 
-let content: DialogOptions['content']
-content = '内容-字符串'
-content = (h) => h('div', '内容-h函数')
-content = () => '内容-函数'
-content = () => <ContentComponent foo="bar" />
+  let content: DialogOptions['content']
+  content = '内容-字符串'
+  content = (h) => h('div', '内容-h函数')
+  content = () => '内容-函数'
+  content = () => <ContentComponent foo="bar" />
 
-let footer: DialogOptions['footer']
-const confirmLoading = ref(false)
-footer = () => [
-  <el-button>取消</el-button>,
-  <el-button
-    onClick={() => {
-      confirmLoading.value = true
-      setTimeout(() => {
-        confirmLoading.value = false
-      }, 1000)
-    }}
-    loading={confirmLoading.value}
-    type="primary"
-  >
-    确定
-  </el-button>,
-]
-footer = false
-footer = true
+  let footer: DialogOptions['footer']
+  const confirmLoading = ref(false)
+  footer = () => [
+    <el-button>取消</el-button>,
+    <el-button
+      onClick={() => {
+        confirmLoading.value = true
+        setTimeout(() => {
+          confirmLoading.value = false
+        }, 1000)
+      }}
+      loading={confirmLoading.value}
+      type="primary"
+    >
+      确定
+    </el-button>,
+  ]
+  footer = false
+  footer = true
 
-let onConfirm: DialogOptions['onConfirm']
-onConfirm = () => {
-  console.debug('onConfirm-void')
-  dialog.setConfirmLoading(true)
-  setTimeout(() => {
-    dialog.setConfirmLoading(false)
-  }, 1000)
-}
-onConfirm = async () => {
-  console.debug('onConfirm-async')
-  await new Promise((r) => setTimeout(r, 1000))
-}
+  let onConfirm: DialogOptions['onConfirm']
+  onConfirm = () => {
+    console.debug('onConfirm-void')
+    dialog.setConfirmLoading(true)
+    setTimeout(() => {
+      dialog.setConfirmLoading(false)
+    }, 1000)
+  }
+  onConfirm = async () => {
+    console.debug('onConfirm-async')
+    await new Promise((r) => setTimeout(r, 1000))
+  }
 
-const dialog = createDialog({
-  title,
-  content,
-  footer,
-  onConfirm,
-  cancelBtn: 'Cancel...',
-  confirmBtn: null,
-  onClose() {
-    console.debug('onClose')
-  },
-})
-setTimeout(() => {
-  dialog.update({
-    confirmBtn: '确定',
+  const dialog = createDialog({
+    title,
+    content,
+    footer,
+    onConfirm,
+    cancelBtn: 'Cancel...',
+    confirmBtn: null,
+    onClose() {
+      console.debug('onClose')
+    },
   })
-}, 300)
+  setTimeout(() => {
+    dialog.update({
+      confirmBtn: '确定',
+    })
+  }, 300)
 
-// @ts-ignore
-window.dialog = dialog
+  // @ts-ignore
+  window.dialog = dialog
+}
 </script>

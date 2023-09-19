@@ -1,8 +1,8 @@
 export * from './dialog'
 export * from './common'
 export * from './message-box'
+export * from './hooks'
 
 export { setGlobalConfig } from './config'
 
-// export * from './hooks'
 // TODO: components => packages

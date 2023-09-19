@@ -5,12 +5,14 @@
 import { merge } from 'lodash'
 import type { ButtonProps, DialogOptions, DialogOptionsRequired } from './dialog/types'
 import type { ElMessageBoxOptions } from 'element-ui/types/message-box'
+import type { PaginationElementOptions } from './hooks/usePaginationElement'
 
 interface GlobalConfig {
   dialog: DialogOptions
   button: ButtonProps
   confirm: ButtonProps
   messageBox: ElMessageBoxOptions
+  paginationElement: Omit<PaginationElementOptions<unknown, unknown[]>, 'onFetch'>
 }
 
 const dialog: DialogOptionsRequired = {
@@ -43,6 +45,9 @@ export const GLOBAL_CONFIG: GlobalConfig = {
     confirmButtonText: '确定',
     title: '提示',
     type: 'warning',
+  },
+  paginationElement: {
+    elPaginationAttrs: {},
   },
 }
 

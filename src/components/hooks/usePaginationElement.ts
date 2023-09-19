@@ -1,34 +1,49 @@
 /**
- * 待研究：https://www.npmjs.com/package/@tanstack/vue-query
+ * https://www.attojs.com/guide/documentation/globalOptions.html
  */
 import { computed } from 'vue'
-import { usePagination } from 'vue-request'
+import { usePagination, type PaginationOptions } from 'vue-request'
+import { GLOBAL_CONFIG } from '../config'
+import type { ElPagination } from 'element-ui/types/pagination'
+import { merge, omit } from 'lodash'
 
-interface PaginationElementOptions<R, P extends unknown[]> {
-  onLoad: (params: P[0]) => Promise<R>
+export interface PaginationElementOptions<R, P extends unknown[]>
+  extends Omit<PaginationOptions<R, P>, 'defaultParams'> {
+  /**
+   *
+   */
+  onFetch?: (params: P[0]) => Promise<R>
+  defaultParams?: Record<string, unknown>
+  elPaginationAttrs?: Omit<
+    Partial<ElPagination> & {
+      background?: boolean
+    },
+    'total' | 'currentPage' | 'pageSize'
+  > &
+    Record<string, unknown>
 }
 
 /**
- * ############################# 未完成的 #############################
+ * vue-request 的话也有全局配置二次封装后为了 paginationAttrs 、 paginationEvents 的部分。
  */
 export function usePaginationElement<R, P extends unknown[] = any>(options: PaginationElementOptions<R, P>) {
   const queryResult = usePagination(
     async (params) => {
-      return options.onLoad(params)
+      return options.onFetch?.(params)
     },
     {
       defaultParams: [
         {
-          pageNum: 1,
-          pageSize: 10,
+          ...options.defaultParams,
+          ...GLOBAL_CONFIG.paginationElement.defaultParams,
         },
       ],
-      // manual: true,
-      pagination: {
-        currentKey: 'pageNum',
-        pageSizeKey: 'pageSize',
-        totalKey: 'total',
-      },
+      ...(omit(merge(GLOBAL_CONFIG.paginationElement, options), [
+        'onFetch',
+        'defaultParams',
+        'elPaginationAttrs',
+      ]) as any),
+
       // 节流: n 秒内只运行一次，若在 n 秒内重复触发，只有一次生效
       // 防抖: n 秒后在执行该事件，若在 n 秒内被重复触发，则重新计时
       // debounceInterval: 52
@@ -38,10 +53,8 @@ export function usePaginationElement<R, P extends unknown[] = any>(options: Pagi
 
   const paginationAttrs = computed(() => {
     return {
-      style: 'text-align: right',
-      background: true,
-      layout: 'total, sizes, prev, pager, next, jumper',
-      pageSizes: [10, 50, 100],
+      ...options.elPaginationAttrs,
+      ...GLOBAL_CONFIG.paginationElement.elPaginationAttrs,
       total: queryResult.total.value,
       currentPage: queryResult.current.value,
       pageSize: queryResult.pageSize.value,
@@ -50,17 +63,18 @@ export function usePaginationElement<R, P extends unknown[] = any>(options: Pagi
 
   const paginationEvents = {
     'size-change': (val: number) => {
-      console.debug('size-change', val)
+      // console.debug('size-change', val)
       queryResult.changePagination(1, val)
     },
     'current-change': (val: number) => {
-      console.debug('current-change', val)
+      // console.debug('current-change', val)
       queryResult.changeCurrent(val)
     },
   }
 
   return {
     ...queryResult,
+    mutate: queryResult.mutate as (data: R) => void,
     paginationAttrs,
     paginationEvents,
   }

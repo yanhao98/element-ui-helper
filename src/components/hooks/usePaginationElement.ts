@@ -35,10 +35,10 @@ export function usePaginationElement<R, P extends unknown[] = any>(options: Pagi
       defaultParams: [
         {
           ...options.defaultParams,
-          ...GLOBAL_CONFIG.paginationElement.defaultParams,
+          ...GLOBAL_CONFIG.hooks.usePaginationElement?.defaultParams,
         },
       ],
-      ...(omit(merge(GLOBAL_CONFIG.paginationElement, options), [
+      ...(omit(merge(GLOBAL_CONFIG.hooks.usePaginationElement, options), [
         'onFetch',
         'defaultParams',
         'elPaginationAttrs',
@@ -54,7 +54,7 @@ export function usePaginationElement<R, P extends unknown[] = any>(options: Pagi
   const paginationAttrs = computed(() => {
     return {
       ...options.elPaginationAttrs,
-      ...GLOBAL_CONFIG.paginationElement.elPaginationAttrs,
+      ...GLOBAL_CONFIG.hooks.usePaginationElement?.elPaginationAttrs,
       total: queryResult.total.value,
       currentPage: queryResult.current.value,
       pageSize: queryResult.pageSize.value,

@@ -12,7 +12,9 @@ interface GlobalConfig {
   button: ButtonProps
   confirm: ButtonProps
   messageBox: ElMessageBoxOptions
-  paginationElement: Omit<PaginationElementOptions<unknown, unknown[]>, 'onFetch'>
+  hooks: {
+    usePaginationElement?: Omit<PaginationElementOptions<unknown, unknown[]>, 'onFetch'>
+  }
 }
 
 const dialog: DialogOptionsRequired = {
@@ -46,8 +48,10 @@ export const GLOBAL_CONFIG: GlobalConfig = {
     title: '提示',
     type: 'warning',
   },
-  paginationElement: {
-    elPaginationAttrs: {},
+  hooks: {
+    usePaginationElement: {
+      elPaginationAttrs: {},
+    },
   },
 }
 

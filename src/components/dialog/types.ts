@@ -2,6 +2,7 @@ import type { ElButton } from 'element-ui/types/button'
 import type { ElementUIComponent } from 'element-ui/types/component'
 import type { ElDialog } from 'element-ui/types/dialog'
 import type { TNode } from '../common'
+import type { createDialog } from './function-call'
 
 export type DialogOptions = Partial<DialogOptionsRequired>
 
@@ -50,3 +51,5 @@ export type FooterButtonProps = ButtonProps & {
   content: string
   onClick: () => Promise<void> | void
 }
+
+export type DialogInstanceType = ReturnType<typeof createDialog>['instance']

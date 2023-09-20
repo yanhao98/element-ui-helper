@@ -9,7 +9,7 @@ import { kebabCase } from 'lodash'
 export type VmType = Vue
 
 interface JSXRenderContext {
-  defaultNode?: VNode
+  defaultNode?: VNode | (JSX.Element | null)[]
   params?: Record<string, any>
   // 是否不打印 LOG
   silent?: boolean

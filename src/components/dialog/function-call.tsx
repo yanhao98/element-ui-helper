@@ -60,7 +60,12 @@ function createDialog(options: DialogOptions) {
       },
       getFooter() {
         const defaultFooter = [this.getCancelBtn(), this.getConfirmBtn()]
-        const footerContent = renderTNodeJSX(this, 'footer', defaultFooter)
+        const footerContent = renderTNodeJSX(this, 'footer', {
+          defaultNode: defaultFooter,
+          params: {
+            instance: this,
+          },
+        })
         // const footer = this.footer ? footerContent : null
         return footerContent
       },
@@ -130,36 +135,41 @@ function createDialog(options: DialogOptions) {
     },
   })
 
-  const dialog = new DialogConstructor().$mount()
-  dialog.visible = true
-  document.body.appendChild(dialog.$el)
+  // const dialog = new DialogConstructor().$mount()
+  const dialogInstance = new DialogConstructor()
+  setTimeout(() => {
+    dialogInstance.$mount()
+    dialogInstance.visible = true
+    document.body.appendChild(dialogInstance.$el)
+  }, 0)
 
   return {
     show() {
-      dialog.visible = true
+      dialogInstance.visible = true
     },
     hide() {
-      dialog.visible = false
+      dialogInstance.visible = false
     },
     destroy() {
       ;(async function () {
-        if (dialog.visible) {
-          dialog.visible = false
+        if (dialogInstance.visible) {
+          dialogInstance.visible = false
           await new Promise((resolve) => {
-            ;(dialog.$refs.dialogRef as ElDialog).$once('closed', resolve)
+            ;(dialogInstance.$refs.dialogRef as ElDialog).$once('closed', resolve)
           })
         }
 
-        dialog.$destroy()
-        dialog.$el.parentNode?.removeChild?.(dialog.$el)
+        dialogInstance.$destroy()
+        dialogInstance.$el.parentNode?.removeChild?.(dialogInstance.$el)
       })()
     },
     update(options: DialogOptions) {
-      Object.assign(dialog, options)
+      Object.assign(dialogInstance, options)
     },
     setConfirmLoading: (val: boolean) => {
-      dialog.confirmLoading = val
+      dialogInstance.confirmLoading = val
     },
+    instance: dialogInstance,
   }
 }
 

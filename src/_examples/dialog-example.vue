@@ -5,9 +5,19 @@
 </template>
 
 <script setup lang="tsx">
-import { createDialog } from 'element-ui-helper'
+import { createDialog, setGlobalConfig } from 'element-ui-helper'
 import type { DialogOptions } from 'element-ui-helper'
 import { defineComponent, ref } from 'vue'
+
+setGlobalConfig({
+  dialog: {
+    showClose: false,
+    footer: (...args) => {
+      console.debug(`[setGlobalConfig.dialog.footer] args :>> `, args);
+      return <div>默认</div>
+    },
+  },
+})
 
 const ContentComponent = defineComponent({
   name: 'ContentComponent',
@@ -61,6 +71,7 @@ function open() {
   footer = false
   footer = true
 
+
   let onConfirm: DialogOptions['onConfirm']
   onConfirm = () => {
     console.debug('onConfirm-void')
@@ -72,12 +83,20 @@ function open() {
   onConfirm = async () => {
     console.debug('onConfirm-async')
     await new Promise((r) => setTimeout(r, 1000))
+    dialog.destroy()
   }
 
   const dialog = createDialog({
     title,
     content,
-    footer,
+    footer: () => [dialog.instance.getConfirmBtn(), dialog.instance.getCancelBtn(), <span
+      onClick={() => {
+        dialog.update({
+          confirmBtn: 'null -> Confirm...',
+        })
+      }}
+    >dialog.update</span>],
+    // footer,
     onConfirm,
     cancelBtn: 'Cancel...',
     confirmBtn: null,
@@ -85,13 +104,10 @@ function open() {
       console.debug('onClose')
     },
   })
-  setTimeout(() => {
-    dialog.update({
-      confirmBtn: '确定',
-    })
-  }, 300)
 
   // @ts-ignore
   window.dialog = dialog
 }
+
+open()
 </script>

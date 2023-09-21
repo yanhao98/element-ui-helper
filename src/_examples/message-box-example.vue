@@ -2,16 +2,64 @@
   <div>
     <el-button type="" @click="throwFn">throwFn</el-button>
     <el-button type="" @click="showFn">showFn</el-button>
+    <el-button type="" @click="componentContent">componentContent</el-button>
   </div>
 </template>
 
-<script setup lang="ts">
-import { messageBoxConfirm } from 'element-ui-helper'
-import { onMounted } from 'vue'
+<script setup lang="tsx">
+import { messageBoxConfirm, setGlobalConfig } from 'element-ui-helper';
+import { defineComponent, getCurrentInstance, onMounted, ref } from 'vue';
+import type { VNode } from 'vue/types/vnode.d.ts';
+
+setGlobalConfig({
+  messageBox: {
+    title: '~提示~',
+  }
+})
+const { proxy } = getCurrentInstance()!
 
 onMounted(function () {
   // showFn()
+  // componentContent()
 })
+
+function componentContent() {
+  const AComponent = defineComponent({
+    name: 'AComponent',
+    setup() {
+      const foo = ref('foo')
+      return () => (
+        <div>
+          <p>AComponent</p>
+          <p>foo: {foo.value}</p>
+          <button onClick={() => foo.value = 'bar' + Math.random()}>foo.value = 'bar'</button>
+        </div>
+      )
+    }
+  })
+  // const message = proxy.$createElement(AComponent)
+  let message: VNode
+  message = (function (h = proxy.$createElement) {
+    return <AComponent />
+  })()
+
+  // ############################# 这样不行。
+  // const baz = ref('default baz')
+  // message = (function (h = proxy.$createElement) {
+  //   return (
+  //     <div>
+  //       <p>baz: {baz.value}</p>
+  //       <button onClick={() => baz.value = 'baz' + Math.random()}>baz.value = 'baz'</button>
+  //     </div>
+  //   )
+  // })()
+  // #############################
+
+  messageBoxConfirm({
+    dangerouslyUseHTMLString: true,
+    message,
+  })
+}
 
 async function showFn() {
   const result = await messageBoxConfirm({
@@ -42,6 +90,8 @@ async function throwFn() {
 }
 window.showFn = showFn
 window.throwFn = throwFn
+
+
 </script>
 
 <style scoped></style>

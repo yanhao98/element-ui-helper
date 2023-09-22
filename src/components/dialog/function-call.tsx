@@ -151,7 +151,15 @@ function createDialog(options: DialogOptions) {
       dialogInstance.visible = false
     },
     destroy() {
+      /* 
+          (function (){
+            dialog.hide();
+            dialog.destroy();
+          })()
+      */
       ;(async function () {
+        console.debug(`dialogInstance :>> `, dialogInstance)
+        console.debug(`dialogInstance.$refs.dialogRef :>> `, dialogInstance.$refs.dialogRef)
         if (dialogInstance.visible) {
           dialogInstance.visible = false
           await new Promise((resolve) => {

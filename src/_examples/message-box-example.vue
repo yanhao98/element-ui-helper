@@ -5,6 +5,7 @@
     <el-button type="" @click="showFnOrigin">showFnOrigin</el-button>
     <el-button type="" @click="componentContent">componentContent</el-button>
     <el-button type="" @click="prompt">prompt</el-button>
+    <el-button type="" @click="promptOrigin">promptOrigin</el-button>
   </div>
 </template>
 
@@ -123,8 +124,23 @@ async function prompt() {
       console.debug(`instance.inputValue :>> `, instance.inputValue)
       await new Promise((resolve) => setTimeout(resolve, 300))
     },
-  },
-  )
+  })
+}
+
+function promptOrigin() {
+  MessageBox.prompt('请输入密码', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    inputType: 'password',
+    inputPattern: new RegExp('^[0-9]*$'),
+    inputErrorMessage: '只能输入数字',
+  }).then((ctx) => {
+    console.debug(`ctx :>> `, ctx);
+    Message.success('操作成功')
+  }).catch((e) => {
+    console.debug(`e :>> `, e);
+    Message.info('已取消删除')
+  })
 }
 
 </script>

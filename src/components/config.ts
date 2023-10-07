@@ -31,6 +31,7 @@ const dialog: DialogOptionsRequired = {
   cancelBtn: undefined,
   footer: true,
   onClose: undefined,
+  onClosed: undefined,
 }
 
 export const GLOBAL_CONFIG: GlobalConfig = {

@@ -1,6 +1,7 @@
 /**
  * 参考：
  *  https://tdesign.tencent.com/vue/components/dialog?tab=api
+ *  https://github.com/Tencent/tdesign-vue/blob/develop/src/dialog/type.ts
  */
 import { Button as ElButton, Dialog as ElDialog } from 'element-ui'
 import Vue from 'vue'
@@ -120,6 +121,7 @@ function createDialog(options: DialogOptions) {
                 this.$destroy()
                 this.$el.parentNode?.removeChild?.(this.$el)
               } */
+              this.onClosed?.()
             },
           }}
         >

@@ -43,6 +43,11 @@ export interface DialogOptionsRequired {
    * 关闭事件，点击取消按钮、点击关闭按钮、点击蒙层、按下 ESC 等场景下触发
    */
   onClose: (() => void) | undefined
+
+  /**
+   * 对话框消失动画效果结束后触发
+   */
+  onClosed: (() => void) | undefined
 }
 
 export type ButtonProps = Partial<Omit<ElButton, keyof ElementUIComponent>>

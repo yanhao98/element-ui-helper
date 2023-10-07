@@ -1,18 +1,18 @@
 import { MessageBox } from 'element-ui'
-import type { MessageBoxConfirmOptions } from './types'
+import { omit } from 'lodash'
 import { GLOBAL_CONFIG } from '../config'
+import type { MessageBoxConfirmOptions } from './types'
 
 /**
  * 打开一个确认框，可以传入一个 Promise，Promise 执行过程中，确认按钮呈现 loading 状态
  */
 function messageBoxConfirm(options: MessageBoxConfirmOptions) {
-  // @ts-ignore
-  options.$type = 'confirm'
+  options.$type = options.$type || 'confirm'
 
   return new Promise((resolve, reject) => {
     MessageBox({
       ...GLOBAL_CONFIG.messageBox,
-      ...options,
+      ...omit(options, ['onConfirm']),
       async beforeClose(action, instance, done) {
         if (action === 'confirm') {
           instance.showClose = false
@@ -25,11 +25,11 @@ function messageBoxConfirm(options: MessageBoxConfirmOptions) {
           instance.confirmButtonText = '执行中...'
 
           try {
-            resolve(await options.onConfirm?.())
+            resolve(await options.onConfirm?.({ instance }))
             done()
           } catch (error) {
             /* 
-            // 不关闭弹窗确认按钮可以重新点击。
+            // 不关闭弹窗确认按钮可以重新点击。用一个变量来控制是否关闭弹窗
             instance.confirmButtonLoading = false
             Object.assign(instance, {
               ...GLOBAL_CONFIG.messageBox,

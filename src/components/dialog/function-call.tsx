@@ -158,8 +158,8 @@ function createDialog(options: DialogOptions) {
           })()
       */
       ;(async function () {
-        console.debug(`dialogInstance :>> `, dialogInstance)
-        console.debug(`dialogInstance.$refs.dialogRef :>> `, dialogInstance.$refs.dialogRef)
+        // console.debug(`dialogInstance :>> `, dialogInstance)
+        // console.debug(`dialogInstance.$refs.dialogRef :>> `, dialogInstance.$refs.dialogRef)
         if (dialogInstance.visible) {
           dialogInstance.visible = false
           await new Promise((resolve) => {

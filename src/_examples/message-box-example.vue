@@ -2,11 +2,14 @@
   <div>
     <el-button type="" @click="throwFn">throwFn</el-button>
     <el-button type="" @click="showFn">showFn</el-button>
+    <el-button type="" @click="showFnOrigin">showFnOrigin</el-button>
     <el-button type="" @click="componentContent">componentContent</el-button>
+    <el-button type="" @click="prompt">prompt</el-button>
   </div>
 </template>
 
 <script setup lang="tsx">
+import { Message, MessageBox } from 'element-ui';
 import { messageBoxConfirm, setGlobalConfig } from 'element-ui-helper';
 import { defineComponent, getCurrentInstance, onMounted, ref } from 'vue';
 import type { VNode } from 'vue/types/vnode.d.ts';
@@ -70,7 +73,21 @@ async function showFn() {
       return '[showFn] onConfirm result'
     },
   })
+  Message.success('操作成功')
   console.debug('showFn end. result =>', result)
+}
+
+function showFnOrigin() {
+  MessageBox.confirm('确定要删除吗？', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning',
+  }).then(() => {
+    Message.success('操作成功')
+  }).catch((e) => {
+    console.debug(`e :>> `, e);
+    Message.info('已取消删除')
+  })
 }
 
 async function throwFn() {
@@ -86,11 +103,29 @@ async function throwFn() {
     console.debug('[throwFn] end.')
   } catch (error) {
     console.debug('[throwFn] catch error. error =>', error)
+    Message.error('操作失败')
   }
 }
 window.showFn = showFn
 window.throwFn = throwFn
 
+
+async function prompt() {
+  await messageBoxConfirm({
+    $type: 'prompt',
+    inputType: 'password',
+    inputPattern: new RegExp('^[0-9]*$'),
+    inputErrorMessage: '只能输入数字',
+    message: '请输入密码',
+    showInput: true,
+    async onConfirm({ instance }) {
+      console.debug(`instance :>> `, instance);
+      console.debug(`instance.inputValue :>> `, instance.inputValue)
+      await new Promise((resolve) => setTimeout(resolve, 300))
+    },
+  },
+  )
+}
 
 </script>
 

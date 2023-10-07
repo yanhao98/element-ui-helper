@@ -23,16 +23,16 @@
   "types": "types/index.d.ts",
   "devDependencies": {
     "@tsconfig/node18": "^18.2.2",
-    "@types/lodash": "^4.14.198",
-    "@types/node": "^20.6.3",
+    "@types/lodash": "^4.14.199",
+    "@types/node": "^20.8.3",
     "@vitejs/plugin-vue2": "^2.2.0",
     "@vitejs/plugin-vue2-jsx": "^1.1.0",
     "@vue/babel-helper-vue-jsx-merge-props": "^1.4.0",
     "@vue/tsconfig": "^0.4.0",
     "typescript": "^5.2.2",
-    "vite": "^4.4.9",
-    "vite-plugin-dts": "^3.5.4",
-    "vue-tsc": "^1.8.13"
+    "vite": "^4.4.11",
+    "vite-plugin-dts": "^3.6.0",
+    "vue-tsc": "^1.8.16"
   },
   "dependencies": {
     "element-ui": "^2.15.14",

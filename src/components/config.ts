@@ -8,9 +8,9 @@ import type { ElMessageBoxOptions } from 'element-ui/types/message-box'
 import type { PaginationElementOptions } from './hooks/usePaginationElement'
 
 interface GlobalConfig {
-  dialog: DialogOptions
   button: ButtonProps
   confirm: ButtonProps
+  dialog: DialogOptions
   messageBox: ElMessageBoxOptions
   hooks: {
     usePaginationElement?: Omit<PaginationElementOptions<unknown, unknown[]>, 'onFetch'>

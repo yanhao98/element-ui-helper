@@ -4,9 +4,29 @@
 
 -->
 <script setup lang="ts">
-import { usePaginationElement } from 'element-ui-helper'
+import { setGlobalConfig, usePaginationElement } from 'element-ui-helper'
 
-
+setGlobalConfig({
+  hooks: {
+    usePaginationElement: {
+      defaultParams: {
+        pageNum: 2,
+        pageSize: 50,
+      },
+      pagination: {
+        currentKey: 'pageNum',
+        pageSizeKey: 'pageSize',
+        totalKey: 'totalll',
+      },
+      elPaginationAttrs: {
+        style: 'text-align: center',
+        background: true,
+        // layout: 'total, sizes, prev, pager, next, jumper',
+        pageSizes: [10, 50, 100],
+      },
+    },
+  },
+})
 const { paginationAttrs, paginationEvents, data, loading, changeCurrent } = usePaginationElement({
   // manual: true,   
   onFetch: async (params) => {
@@ -20,6 +40,7 @@ const { paginationAttrs, paginationEvents, data, loading, changeCurrent } = useP
         col1: `col1-${i}`,
         col2: `col2-${i}`,
       })),
+      date: new Date().toLocaleString(),
     }
   },
 })

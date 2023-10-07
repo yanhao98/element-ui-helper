@@ -1,14 +1,16 @@
-<template>
-  <div>
-    <el-button @click="open">open</el-button>
-  </div>
-</template>
-
 <script setup lang="tsx">
 import { createDialog, setGlobalConfig } from 'element-ui-helper'
 import type { DialogOptions } from 'element-ui-helper'
 import { defineComponent, ref } from 'vue'
 
+setGlobalConfig({
+  button: {
+    plain: true,
+  },
+  confirm: {
+    round: true,
+  },
+})
 setGlobalConfig({
   dialog: {
     showClose: false,
@@ -22,21 +24,15 @@ setGlobalConfig({
 const ContentComponent = defineComponent({
   name: 'ContentComponent',
   props: ['foo'],
-  mounted() {
-    console.debug('ContentComponent mounted')
-  },
-  destroyed() {
-    console.debug('ContentComponent destroyed')
-  },
+  mounted() { console.debug('ContentComponent mounted') },
+  destroyed() { console.debug('ContentComponent destroyed') },
   setup(props) {
-    return () => {
-      return (
-        <div>
-          <h1>内容-组件</h1>
-          <p>props.foo: {props.foo}</p>
-        </div>
-      )
-    }
+    return () => (
+      <div>
+        <h1>内容-组件</h1>
+        <p>props.foo: {props.foo}</p>
+      </div>
+    )
   },
 })
 
@@ -76,9 +72,7 @@ function open() {
   onConfirm = () => {
     console.debug('onConfirm-void')
     dialog.setConfirmLoading(true)
-    setTimeout(() => {
-      dialog.setConfirmLoading(false)
-    }, 1000)
+    setTimeout(() => { dialog.setConfirmLoading(false) }, 1000)
   }
   onConfirm = async () => {
     console.debug('onConfirm-async')
@@ -111,3 +105,9 @@ function open() {
 
 open()
 </script>
+
+<template>
+  <div>
+    <el-button @click="open">open</el-button>
+  </div>
+</template>

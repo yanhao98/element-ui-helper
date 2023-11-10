@@ -34,7 +34,7 @@ export interface DialogOptionsRequired {
    * 底部操作栏，默认会有“确认”和“取消”两个按钮。值为 true 显示默认操作按钮，值为 false 不显示任何内容，值类型为 Function 表示自定义底部内容
    * @default true
    */
-  footer: boolean | TNode | undefined
+  footer: boolean | TNode<FooterProps> | undefined
   /**
    * 底部操作按钮，如果有值，则会覆盖默认的“确认”和“取消”按钮
    */
@@ -58,3 +58,7 @@ export type FooterButtonProps = ButtonProps & {
 }
 
 export type DialogInstanceType = ReturnType<typeof createDialog>['instance']
+
+type FooterProps = {
+  instance: DialogInstanceType
+}

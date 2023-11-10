@@ -49,7 +49,7 @@ function open() {
 
   let footer: DialogOptions['footer']
   const confirmLoading = ref(false)
-  footer = () => [
+  footer = (h, ctx) => [
     <el-button>取消</el-button>,
     <el-button
       onClick={() => {

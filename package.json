@@ -9,7 +9,10 @@
     "build": "npm run type-check && vite build",
     "preview": "pnpm run build && vite preview",
     "type-check": "vue-tsc --noEmit --skipLibCheck -p tsconfig.app.json",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "repository": {
     "url": "https://github.com/yanhao98/element-ui-helper"
@@ -29,10 +32,11 @@
     "@vitejs/plugin-vue2": "^2.3.1",
     "@vitejs/plugin-vue2-jsx": "^1.1.1",
     "@vue/babel-helper-vue-jsx-merge-props": "^1.4.0",
-    "@vue/tsconfig": "^0.4.0",
+    "@vue/tsconfig": "^0.5.0",
     "typescript": "^5.3.3",
-    "vite": "^5.0.9",
+    "vite": "^5.0.10",
     "vite-plugin-dts": "^3.6.4",
+    "vitepress": "latest",
     "vue-tsc": "^1.8.25"
   },
   "dependencies": {

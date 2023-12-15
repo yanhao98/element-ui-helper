@@ -38,7 +38,7 @@ export default defineConfig({
     lib: {
       name: 'element-ui-helper',
       formats: ['es', 'cjs'],
-      fileName: 'index',
+      fileName: (format) => `index.${format}.js`,
       entry: path.resolve(__dirname, 'src/components/index.ts'),
     },
     rollupOptions: {

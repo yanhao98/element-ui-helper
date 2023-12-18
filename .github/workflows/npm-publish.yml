@@ -1,6 +1,6 @@
 name: Publish Package
-# permissions:
-#   id-token: write
+permissions:
+  id-token: write
   # contents: write
 on:
   push:

@@ -41,6 +41,7 @@ export default defineConfig({
       fileName: (format) => `index.${format}.js`,
       entry: path.resolve(__dirname, 'src/components/index.ts'),
     },
+    target: 'es2015',
     rollupOptions: {
       external: [
         'vue',

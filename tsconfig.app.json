@@ -9,6 +9,13 @@
     "src/**/__tests__/*"
   ],
   "compilerOptions": {
+    "moduleResolution": "node",
+    /* 
+      set "moduleResolution": "node" to fix the error:
+      https://github.com/microsoft/TypeScript/issues/42873#issuecomment-1760021148
+      https://segmentfault.com/q/1010000044131430
+      https://github.com/qmhc/vite-plugin-dts/blob/HEAD/README.zh-CN.md#打包时出现了无法从-node_modules-的包中推断类型的错误
+    */
     "composite": true,
     "baseUrl": ".",
     "paths": {
@@ -18,13 +25,6 @@
       "element-ui-helper": [
         "./src/components"
       ],
-      /* 
-        https://segmentfault.com/q/1010000044131430
-        https://github.com/qmhc/vite-plugin-dts/blob/HEAD/README.zh-CN.md#打包时出现了无法从-node_modules-的包中推断类型的错误
-       */
-      /* "vue": [
-        "node_modules/vue"
-      ] */
     },
     "skipLibCheck": false,
     "jsxImportSource": "",

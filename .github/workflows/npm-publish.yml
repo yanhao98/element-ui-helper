@@ -24,10 +24,24 @@ jobs:
           node-version: 18
           registry-url: https://registry.npmjs.org/
           cache: pnpm
-
+      
       - run: pnpm install --frozen-lockfile
 
-      - run: npm publish --access public
+      # 检查版本是否包含 'beta'
+      - name: Check for beta version
+        id: check_version
+        run: |
+          if grep -q "beta" package.json; then
+            echo "IS_BETA=true" >> $GITHUB_ENV
+          else
+            echo "IS_BETA=false" >> $GITHUB_ENV
+
+      - name: Publish to npm
+        run: |
+          if [ $IS_BETA = "true" ]; then
+            npm publish --access public --tag beta
+          else
+            npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
           NPM_CONFIG_PROVENANCE: true

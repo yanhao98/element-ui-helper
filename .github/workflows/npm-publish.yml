@@ -35,6 +35,7 @@ jobs:
             echo "IS_BETA=true" >> $GITHUB_ENV
           else
             echo "IS_BETA=false" >> $GITHUB_ENV
+          fi
 
       - name: Publish to npm
         run: |
@@ -42,6 +43,7 @@ jobs:
             npm publish --access public --tag beta
           else
             npm publish --access public
+          fi
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
           NPM_CONFIG_PROVENANCE: true

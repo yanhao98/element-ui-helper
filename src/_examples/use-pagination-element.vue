@@ -4,7 +4,7 @@
 
 -->
 <script setup lang="ts">
-import { setGlobalConfig, usePaginationElement } from 'element-ui-helper'
+import { setGlobalConfig, usePaginationElement } from "element-ui-helper";
 
 setGlobalConfig({
   hooks: {
@@ -14,25 +14,25 @@ setGlobalConfig({
         pageSize: 50,
       },
       pagination: {
-        currentKey: 'pageNum',
-        pageSizeKey: 'pageSize',
-        totalKey: 'totalll',
+        currentKey: "pageNum",
+        pageSizeKey: "pageSize",
+        totalKey: "totalll",
       },
       elPaginationAttrs: {
-        style: 'text-align: center',
+        style: "text-align: center",
         background: true,
         // layout: 'total, sizes, prev, pager, next, jumper',
         pageSizes: [10, 50, 100],
       },
     },
   },
-})
-const { paginationAttrs, paginationEvents, data, loading, changeCurrent } = usePaginationElement({
-  // manual: true,   
+});
+const tableHook = usePaginationElement({
+  // manual: true,
   onFetch: async (params) => {
-    console.debug('params :>> ', JSON.stringify(params, null, 2), params)
+    console.debug("[onFetch] params :>> ", JSON.stringify(params, null, 2), params);
 
-    await new Promise((r) => setTimeout(r, 1000))
+    await new Promise((r) => setTimeout(r, 1000));
 
     return {
       totalll: 520,
@@ -41,20 +41,27 @@ const { paginationAttrs, paginationEvents, data, loading, changeCurrent } = useP
         col2: `col2-${i}`,
       })),
       date: new Date().toLocaleString(),
-    }
+    };
   },
-})
+});
+const { paginationAttrs, paginationEvents, data, loading, changeCurrent } = tableHook
 </script>
 
 <template>
   <div>
     <el-button @click="changeCurrent(1)">changeCurrent(1)</el-button>
+    <div>{{ tableHook.loading }}</div>
+    <!-- someHook.someProp: fixed in 2.7.16 -->
+    <!-- https://github.com/vuejs/vue/issues/12884 -->
+    <hr />
     <el-table :data="data?.list" border v-loading="loading">
       <el-table-column prop="col1" label="col1"></el-table-column>
       <el-table-column prop="col2" label="col2"></el-table-column>
     </el-table>
     <el-pagination v-bind="paginationAttrs" v-on="paginationEvents" />
-    <div style="border: 1px solid #ccc; margin-top: 20px; padding: 10px;">{{ { data } }}</div>
+    <div style="border: 1px solid #ccc; margin-top: 20px; padding: 10px">
+      {{ { data } }}
+    </div>
   </div>
 </template>
 

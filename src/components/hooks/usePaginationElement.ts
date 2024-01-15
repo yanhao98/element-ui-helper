@@ -20,7 +20,7 @@ export interface PaginationElementOptions<R, P extends unknown[]>
     },
     'total' | 'currentPage' | 'pageSize'
   > &
-    Record<string, unknown>
+  Record<string, unknown>
 }
 
 /**

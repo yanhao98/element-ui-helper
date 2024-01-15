@@ -6,7 +6,8 @@
   "author": "",
   "scripts": {
     "dev": "vite",
-    "build": "npm run type-check && vite build",
+    "build": "npm run clean && npm run type-check && vite build",
+    "clean":"rm -rf dist && rm -rf types",
     "preview": "pnpm run build && vite preview",
     "type-check": "vue-tsc --noEmit --skipLibCheck -p tsconfig.app.json",
     "prepublishOnly": "npm run build",

@@ -31,3 +31,5 @@ components.d.ts
 types
 
 cache
+
+*.tsbuildinfo

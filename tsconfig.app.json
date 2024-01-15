@@ -1,22 +1,32 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
   "include": [
-    "src/**/*.vue",
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "typed-router.d.ts",
-    "auto-imports.d.ts",
-    "components.d.ts"
+    "env.d.ts",
+    "src/**/*",
+    "src/**/*.vue"
+  ],
+  "exclude": [
+    "src/**/__tests__/*"
   ],
   "compilerOptions": {
-    "types": ["vite/client"],
-    "skipLibCheck": false,
-    "jsxImportSource": "",
-    // "moduleResolution": "Node",
+    "composite": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "element-ui-helper": ["./src/components"]
-    }
+      "@/*": [
+        "./src/*"
+      ],
+      "element-ui-helper": [
+        "./src/components"
+      ],
+      /* 
+        https://segmentfault.com/q/1010000044131430
+        https://github.com/qmhc/vite-plugin-dts/blob/HEAD/README.zh-CN.md#打包时出现了无法从-node_modules-的包中推断类型的错误
+       */
+      /* "vue": [
+        "node_modules/vue"
+      ] */
+    },
+    "skipLibCheck": false,
+    "jsxImportSource": "",
   }
 }

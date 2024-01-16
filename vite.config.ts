@@ -14,11 +14,11 @@ export default defineConfig({
     vue2(),
     vue2Jsx(),
     dts({
-      // rollupTypes: true,
+      rollupTypes: true,
       include: ['src/components/**/*'],
       tsconfigPath: path.resolve(__dirname, 'tsconfig.app.json'),
       // root: path.resolve(__dirname),
-      // entryRoot: path.resolve(__dirname, 'src/components'),
+      entryRoot: path.resolve(__dirname, 'src/components'),
       staticImport: true,
       logLevel: 'info',
       outDir: 'types',

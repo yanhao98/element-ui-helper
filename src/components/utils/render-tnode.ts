@@ -2,7 +2,7 @@
  * https://github.com/Tencent/tdesign-vue/blob/6dde627d16b16970b44a236d386a25cfe87d68f7/src/utils/render-tnode.ts
  */
 import { h } from 'vue'
-import type { ScopedSlotReturnValue, VNode } from 'vue/types/vnode.d.ts'
+import type { ScopedSlotReturnValue, VNode } from 'vue/types/vnode'
 import { camelCase } from 'lodash'
 import { kebabCase } from 'lodash'
 

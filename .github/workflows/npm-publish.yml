@@ -5,6 +5,7 @@ permissions:
 on:
   push:
     branches: [main]
+
 jobs:
   publish-npm:
     # if: false
@@ -27,24 +28,15 @@ jobs:
       
       - run: pnpm install --frozen-lockfile
 
-      # 检查版本是否包含 'beta'
-      - name: Check for beta version
-        id: check_version
+      - name: Set publish args if beta version
         run: |
           if grep -q "beta" package.json; then
-            echo "IS_BETA=true" >> $GITHUB_ENV
+            echo "PUBLISH_ARGS=--tag beta" >> $GITHUB_ENV
             echo "This is a beta version 🅱️"
-          else
-            echo "IS_BETA=false" >> $GITHUB_ENV
           fi
 
       - name: Publish to npm
-        run: |
-          if [ $IS_BETA = "true" ]; then
-            npm publish --access public --tag beta
-          else
-            npm publish --access public
-          fi
+        run: npm publish --access public $PUBLISH_ARGS
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
           NPM_CONFIG_PROVENANCE: true

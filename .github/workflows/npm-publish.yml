@@ -33,6 +33,7 @@ jobs:
         run: |
           if grep -q "beta" package.json; then
             echo "IS_BETA=true" >> $GITHUB_ENV
+            echo "This is a beta version 🅱️"
           else
             echo "IS_BETA=false" >> $GITHUB_ENV
           fi

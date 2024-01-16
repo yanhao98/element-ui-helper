@@ -21,7 +21,7 @@ setGlobalConfig({
       elPaginationAttrs: {
         style: "text-align: center",
         background: true,
-        // layout: 'total, sizes, prev, pager, next, jumper',
+        layout: "prev, jumper, pager, next, sizes, slot, ->, total",
         pageSizes: [10, 50, 100],
       },
     },
@@ -44,19 +44,20 @@ const tableHook = usePaginationElement({
     };
   },
 });
-const { paginationAttrs, paginationEvents, data, loading, changeCurrent } = tableHook
+const { paginationAttrs, paginationEvents, data, loading, changeCurrent } = tableHook;
 </script>
 
 <template>
   <div>
     <el-button @click="changeCurrent(1)">changeCurrent(1)</el-button>
-    <div>{{ tableHook.loading }}</div>
+    <div>tableHook.loading: {{ tableHook.loading }}</div>
     <!-- someHook.someProp: fixed in 2.7.16 -->
     <!-- https://github.com/vuejs/vue/issues/12884 -->
     <hr />
     <el-table :data="data?.list" border v-loading="loading">
-      <el-table-column prop="col1" label="col1"></el-table-column>
-      <el-table-column prop="col2" label="col2"></el-table-column>
+      <el-table-column label="ix" type="index" width="50" :index="tableHook.indexMethod" />
+      <el-table-column label="col1" prop="col1" />
+      <el-table-column label="col2" prop="col2" />
     </el-table>
     <el-pagination v-bind="paginationAttrs" v-on="paginationEvents" />
     <div style="border: 1px solid #ccc; margin-top: 20px; padding: 10px">

@@ -47,7 +47,7 @@ export function usePaginationElement<R, P extends unknown[] = any>(options: Pagi
       // 节流: n 秒内只运行一次，若在 n 秒内重复触发，只有一次生效
       // 防抖: n 秒后在执行该事件，若在 n 秒内被重复触发，则重新计时
       // debounceInterval: 52
-      // 用changePagination就行了。
+      // 用 changePagination 就行了。
     }
   )
 
@@ -72,10 +72,15 @@ export function usePaginationElement<R, P extends unknown[] = any>(options: Pagi
     },
   }
 
+  const indexMethod = (index: number) => {
+    return (queryResult.current.value - 1) * queryResult.pageSize.value + index + 1
+  }
+
   return {
     ...queryResult,
     mutate: queryResult.mutate as (data: R) => void,
     paginationAttrs,
     paginationEvents,
+    indexMethod,
   }
 }

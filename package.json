@@ -1,6 +1,6 @@
 {
   "name": "element-ui-helper",
-  "version": "1.0.16",
+  "version": "1.0.17-beta.0",
   "description": "A helper for element-ui",
   "type": "module",
   "author": "",
@@ -43,7 +43,7 @@
   "dependencies": {
     "element-ui": "^2.15.14",
     "lodash": "^4.17.21",
-    "vue": "^2.7.16",
+    "vue": "^2.7.14",
     "vue-request": "^2.0.4"
   },
   "stackblitz": {

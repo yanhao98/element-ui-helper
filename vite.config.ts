@@ -21,7 +21,7 @@ export default defineConfig({
       entryRoot: path.resolve(__dirname, 'src/components'),
       staticImport: true,
       logLevel: 'info',
-      outDir: 'lib',
+      outDir: 'types',
       beforeWriteFile(filePath, content) {
         return {
           filePath,

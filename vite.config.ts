@@ -44,7 +44,7 @@ export default defineConfig({
         // 'cjs'
       ],
       // fileName: (format) => `index.${format}.js`,
-      fileName: 'index',
+      // fileName: 'index',
       entry: path.resolve(__dirname, 'src/components/index.ts'),
     },
     // target: 'es2015',

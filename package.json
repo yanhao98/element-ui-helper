@@ -1,13 +1,13 @@
 {
   "name": "element-ui-helper",
-  "version": "1.0.18-beta.5",
+  "version": "1.0.18-beta.6",
   "description": "A helper for element-ui",
   "type": "module",
   "author": "",
   "scripts": {
     "dev": "vite",
     "build": "npm run clean && npm run type-check && vite build",
-    "clean": "rm -rf lib && rm -rf types",
+    "clean": "rm -rf dist && rm -rf types",
     "preview": "pnpm run build && vite preview",
     "type-check": "vue-tsc --noEmit --skipLibCheck -p tsconfig.app.json",
     "prepublishOnly": "npm run build",
@@ -19,11 +19,11 @@
     "url": "https://github.com/yanhao98/element-ui-helper"
   },
   "files": [
-    "lib",
+    "dist",
     "types"
   ],
   "license": "MIT",
-  "main": "lib/element-ui-helper.js",
+  "main": "dist/element-ui-helper.js",
   "typings": "types/index.d.ts",
   "devDependencies": {
     "@tsconfig/node18": "^18.2.2",

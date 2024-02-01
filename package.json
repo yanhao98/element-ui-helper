@@ -1,6 +1,6 @@
 {
   "name": "element-ui-helper",
-  "version": "1.0.18-beta.0",
+  "version": "1.0.18-beta.1",
   "description": "A helper for element-ui",
   "type": "module",
   "author": "",
@@ -22,7 +22,7 @@
     "lib"
   ],
   "license": "MIT",
-  "main": "lib/index.es.js",
+  "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "devDependencies": {
     "@tsconfig/node18": "^18.2.2",

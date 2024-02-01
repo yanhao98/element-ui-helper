@@ -21,7 +21,7 @@ export default defineConfig({
       entryRoot: path.resolve(__dirname, 'src/components'),
       staticImport: true,
       logLevel: 'info',
-      outDir: 'types',
+      outDir: 'lib',
       beforeWriteFile(filePath, content) {
         return {
           filePath,
@@ -34,11 +34,15 @@ export default defineConfig({
     }),
   ],
   build: {
+    outDir: 'lib',
     sourcemap: true,
     minify: false,
     lib: {
       name: 'element-ui-helper',
-      formats: ['es', 'cjs'],
+      formats: [
+        'es',
+        // 'cjs'
+      ],
       fileName: (format) => `index.${format}.js`,
       entry: path.resolve(__dirname, 'src/components/index.ts'),
     },

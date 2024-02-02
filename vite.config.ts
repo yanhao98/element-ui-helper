@@ -56,13 +56,6 @@ export default defineConfig({
         'vue-request' /* , 'vue-demi' */,
         'lodash',
       ],
-      output: {
-        /* globals: {
-          vue: 'Vue',
-          'element-ui': 'ELEMENT',
-          '@vue/babel-helper-vue-jsx-merge-props': 'mergeProps',
-        }, */
-      },
     },
   },
   resolve: {

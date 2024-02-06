@@ -21,7 +21,7 @@
     "docs:preview": "vitepress preview docs"
   },
   "repository": {
-    "url": "https://github.com/yanhao98/element-ui-helper"
+    "url": "git+https://github.com/yanhao98/element-ui-helper.git"
   },
   "author": "",
   "license": "MIT",

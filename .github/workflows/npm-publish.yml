@@ -31,11 +31,12 @@ jobs:
 
       - name: Set publish args if beta version
         run: |
-          if grep -q "beta" package.json; then
+          version=$(yq eval '.version' package.json)
+          echo "version: $version"
+          if [[ $version == *beta* ]]; then
             echo "PUBLISH_ARGS=--tag beta" >> $GITHUB_ENV
             echo "This is a beta version 🅱️"
           fi
-
       - name: Publish to npm
         run: npm publish --access public $PUBLISH_ARGS
         env:

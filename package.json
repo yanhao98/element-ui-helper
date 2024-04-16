@@ -24,11 +24,12 @@
   "license": "MIT",
   "peerDependencies": {
     "element-ui": "^2.15.14",
+    "lodash": "^4.0.0",
     "vue": "^2.7.0",
-    "vue-request": "^2.0.0",
-    "lodash": "^4.0.0"
+    "vue-request": "^2.0.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.43.1",
     "@tsconfig/node18": "^18.2.4",
     "@types/lodash": "^4.17.0",
     "@types/node": "^20.12.7",

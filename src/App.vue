@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="tsx">
-import { computed, ref, watch } from 'vue'
+import { ref, watch } from 'vue';
 
 
 let comptMap: Record<string, any>
@@ -35,12 +35,14 @@ let comptMap: Record<string, any>
 })();
 
 const currentName = ref('')
-currentName.value = localStorage.getItem('currentName') || Object.keys(comptMap)[0]
+if (__DEV__) {
+  currentName.value = localStorage.getItem('currentName') || Object.keys(comptMap)[0]
 
-watch(currentName, (value) => {
-  console.debug(`value :>> `, value);
-  localStorage.setItem('currentName', value)
-})
+  watch(currentName, (value) => {
+    console.debug(`value :>> `, value);
+    localStorage.setItem('currentName', value)
+  })
+}
 
 </script>
 

@@ -17,7 +17,7 @@ interface GlobalConfig {
   }
 }
 
-const dialog: DialogOptionsRequired = {
+const dialogDefaultConfig: DialogOptionsRequired = {
   title: true,
   width: undefined,
   customClass: undefined,
@@ -32,10 +32,12 @@ const dialog: DialogOptionsRequired = {
   footer: true,
   onClose: undefined,
   onClosed: undefined,
+  immediateShow: true,
+  destroyAfterClosed: true
 }
 
 export const GLOBAL_CONFIG: GlobalConfig = {
-  dialog,
+  dialog: dialogDefaultConfig,
   button: {},
   confirm: {
     type: 'primary',
@@ -56,6 +58,7 @@ export const GLOBAL_CONFIG: GlobalConfig = {
   },
 }
 
+// https://radash-docs.vercel.app/docs/object/assign
 export function setGlobalConfig(config: Partial<GlobalConfig>) {
   merge(GLOBAL_CONFIG, config)
 }

@@ -70,11 +70,11 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'npm run preview',
+    command: 'pnpm exec vite build --mode preview && pnpm exec vite preview --host --port 4173',
     url: 'http://127.0.0.1:4173',
     reuseExistingServer: !process.env.CI,
     timeout: 5 * 60 * 1000,
-    stdout: 'pipe',
-    stderr: 'pipe',
+    // stdout: 'pipe',
+    // stderr: 'pipe',
   },
 });

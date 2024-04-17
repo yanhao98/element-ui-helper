@@ -12,13 +12,7 @@ setGlobalConfig({
   },
 })
 setGlobalConfig({
-  dialog: {
-    showClose: false,
-    footer: (...args) => {
-      console.debug(`[setGlobalConfig.dialog.footer] args :>> `, args);
-      return <div>默认</div>
-    },
-  },
+  dialog: {},
 })
 
 const ContentComponent = defineComponent({
@@ -36,7 +30,12 @@ const ContentComponent = defineComponent({
   },
 })
 
-function open() {
+function openX() {
+  /* showClose: false,
+    footer: (h, ctx) => {
+      console.debug(`[setGlobalConfig.dialog.footer] ctx :>> `, ctx);
+      return <div>默认</div>
+    }, */
   let title: DialogOptions['title']
   title = false
   title = '标题-字符串'
@@ -83,13 +82,19 @@ function open() {
   const dialog = createDialog({
     title,
     content,
-    footer: () => [dialog.instance.getConfirmBtn(), dialog.instance.getCancelBtn(), <span
-      onClick={() => {
-        dialog.update({
-          confirmBtn: 'null -> Confirm...',
-        })
-      }}
-    >dialog.update</span>],
+    footer: () => [
+      dialog.instance.getConfirmBtn(),
+      dialog.instance.getCancelBtn(),
+      <span
+        onClick={() => {
+          dialog.update({
+            confirmBtn: 'null -> Confirm...',
+          })
+        }}
+      >
+        dialog.update
+      </span>
+    ],
     // footer,
     onConfirm,
     cancelBtn: 'Cancel...',
@@ -103,11 +108,21 @@ function open() {
   window.dialog = dialog
 }
 
-open()
+function open() {
+  createDialog({
+    title: '标题',
+    content: '内容',
+    onConfirm(ctx) {
+      ctx.hide()
+    },
+  })
+}
+
 </script>
 
 <template>
   <div>
     <el-button @click="open">open</el-button>
+    <!-- <el-button @click="open">open</el-button> -->
   </div>
 </template>

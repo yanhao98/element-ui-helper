@@ -13,7 +13,7 @@
     "dev": "vite",
     "build": "npm run clean && npm run type-check && vite build",
     "clean": "rm -rf dist && rm -rf types",
-    "preview": "pnpm run build && vite preview",
+    "preview": "npm run clean && vite build --mode preview && vite preview --host",
     "type-check": "vue-tsc --noEmit --skipLibCheck -p tsconfig.app.json",
     "prepublishOnly": "npm run build"
   },
@@ -24,24 +24,23 @@
   "license": "MIT",
   "peerDependencies": {
     "element-ui": "^2.15.14",
+    "lodash": "^4.0.0",
     "vue": "^2.7.0",
     "vue-request": "^2.0.0"
   },
-  "dependencies": {
-    "lodash": "^4.17.21"
-  },
   "devDependencies": {
-    "@tsconfig/node18": "^18.2.2",
-    "@types/lodash": "^4.14.202",
-    "@types/node": "^20.11.16",
+    "@playwright/test": "^1.43.1",
+    "@tsconfig/node18": "^18.2.4",
+    "@types/lodash": "^4.17.0",
+    "@types/node": "^20.12.7",
     "@vitejs/plugin-vue2": "^2.3.1",
     "@vitejs/plugin-vue2-jsx": "^1.1.1",
     "@vue/babel-helper-vue-jsx-merge-props": "^1.4.0",
     "@vue/tsconfig": "^0.5.1",
-    "typescript": "^5.3.3",
-    "vite": "^5.0.12",
-    "vite-plugin-dts": "^3.7.2",
-    "vue-tsc": "^2.0.4"
+    "typescript": "^5.4.5",
+    "vite": "^5.2.9",
+    "vite-plugin-dts": "^3.8.3",
+    "vue-tsc": "^2.0.13"
   },
   "stackblitz": {
     "startCommand": "pnpm dev"

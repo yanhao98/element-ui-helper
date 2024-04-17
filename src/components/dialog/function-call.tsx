@@ -16,7 +16,6 @@ function createDialog(options: DialogOptions) {
       ...GLOBAL_CONFIG.dialog,
       ...options,
       visible: false,
-      // destoryAfterClose: false,
     }),
     methods: {
       getConfirmBtn() {
@@ -30,7 +29,7 @@ function createDialog(options: DialogOptions) {
               loading: this.confirmLoading,
             }}
             onClick={() => {
-              const result = this.onConfirm?.()
+              const result = this.onConfirm?.(dialogRtn)
               if (result instanceof Promise) {
                 this.confirmLoading = true
                 result.finally(() => {
@@ -117,11 +116,8 @@ function createDialog(options: DialogOptions) {
             },
             closed: () => {
               // console.debug(`[FunctionDialog][ElDialog] onClosed`)
-              /* if (this.destoryAfterClose) {
-                this.$destroy()
-                this.$el.parentNode?.removeChild?.(this.$el)
-              } */
-              this.onClosed?.()
+              this.onClosed?.(dialogRtn)
+              this.destroyAfterClosed && dialogRtn.destroy()
             },
           }}
         >
@@ -137,15 +133,19 @@ function createDialog(options: DialogOptions) {
     },
   })
 
-  // const dialog = new DialogConstructor().$mount()
-  const dialogInstance = new DialogConstructor()
-  setTimeout(() => {
+  const dialogInstance = new DialogConstructor({
+    el: document.body.appendChild(document.createElement('div')),
+    // TODO: parent: GLOBAL_CONFIG.app,
+  })
+  // FIXME: setGlobalConfig.dialog.footer] ctx 会打印两次。
+  dialogInstance.visible = !!dialogInstance.immediateShow
+  /* setTimeout(() => {
     dialogInstance.$mount()
-    dialogInstance.visible = true
+    dialogInstance.visible = !!dialogInstance.immediateShow
     document.body.appendChild(dialogInstance.$el)
-  }, 0)
+  }, 0) */
 
-  return {
+  const dialogRtn = {
     show() {
       dialogInstance.visible = true
     },
@@ -153,19 +153,11 @@ function createDialog(options: DialogOptions) {
       dialogInstance.visible = false
     },
     destroy() {
-      /* 
-          (function (){
-            dialog.hide();
-            dialog.destroy();
-          })()
-      */
-      ;(async function () {
-        // console.debug(`dialogInstance :>> `, dialogInstance)
-        // console.debug(`dialogInstance.$refs.dialogRef :>> `, dialogInstance.$refs.dialogRef)
+      ; (async function () {
         if (dialogInstance.visible) {
           dialogInstance.visible = false
           await new Promise((resolve) => {
-            ;(dialogInstance.$refs.dialogRef as ElDialog).$once('closed', resolve)
+            ; (dialogInstance.$refs.dialogRef as ElDialog).$once('closed', resolve)
           })
         }
 
@@ -181,6 +173,7 @@ function createDialog(options: DialogOptions) {
     },
     instance: dialogInstance,
   }
+  return dialogRtn;
 }
 
 export { createDialog }

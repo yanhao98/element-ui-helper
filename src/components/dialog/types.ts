@@ -20,6 +20,9 @@ export interface DialogOptionsRequired {
    * 对话框内容
    */
   content: string | TNode | undefined
+  /**
+   * 
+   */
   confirmBtn: string | /* ButtonProps | TNode | */ null | undefined
   /**
    * 确认按钮加载状态
@@ -28,7 +31,10 @@ export interface DialogOptionsRequired {
   /**
    * 如果“确认”按钮存在，则点击“确认”按钮时触发。如果函数函数是异步的，会自动显示加载状态
    */
-  onConfirm: (() => Promise<void> | void) | undefined
+  onConfirm: ((ctx: ReturnType<typeof createDialog>) => Promise<void> | void) | undefined
+  /**
+   * 
+   */
   cancelBtn: string | /* ButtonProps | TNode | */ null | undefined
   /**
    * 底部操作栏，默认会有“确认”和“取消”两个按钮。值为 true 显示默认操作按钮，值为 false 不显示任何内容，值类型为 Function 表示自定义底部内容
@@ -36,19 +42,28 @@ export interface DialogOptionsRequired {
    */
   footer: boolean | TNode<FooterProps> | undefined
   /**
-   * 底部操作按钮，如果有值，则会覆盖默认的“确认”和“取消”按钮
-   */
-  // footerBtns: Array<FooterButtonProps> | undefined
-  /**
    * 关闭事件，点击取消按钮、点击关闭按钮、点击蒙层、按下 ESC 等场景下触发
    */
   onClose: (() => void) | undefined
-
   /**
    * 对话框消失动画效果结束后触发
    */
-  onClosed: (() => void) | undefined
+  onClosed: ((ctx: ReturnType<typeof createDialog>) => void) | undefined
+  /**
+   * 创建对话框后立即显示
+   * @default true
+   */
+  immediateShow: boolean
+  /**
+   * 对话框消失动画效果结束后销毁对话框
+   * @default true
+   */
+  destroyAfterClosed: boolean
 }
+// /**
+//  * 底部操作按钮，如果有值，则会覆盖默认的“确认”和“取消”按钮
+//  */
+// // footerBtns: Array<FooterButtonProps> | undefined
 
 export type ButtonProps = Partial<Omit<ElButton, keyof ElementUIComponent>>
 

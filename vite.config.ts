@@ -77,6 +77,33 @@ export default defineConfig((env) => {
         ],
       },
     }
+  } else {
+    config.build = {
+      rollupOptions: {
+        output: {
+          chunkFileNames: 'assets/chunk/[name]_[hash].js',
+          entryFileNames: 'assets/entry/[name]_[hash].js',
+          assetFileNames: 'assets/[ext]/[name]_[hash].[ext]',
+          manualChunks: (id, { getModuleIds, getModuleInfo }) => {
+            if (id.includes('node_modules')) {
+              let pkgName = id;
+              pkgName = pkgName.split('.pnpm/')?.[1] || pkgName;
+              pkgName = pkgName.split('node_modules/')?.[1] || pkgName;
+              pkgName = pkgName.startsWith('@')
+                ? pkgName.split('/')[0] + '/' + pkgName.split('/')[1]
+                : pkgName.split('/')[0];
+
+              if (
+                pkgName.startsWith('@vue/') ||
+                pkgName === 'vue-demi'
+              ) pkgName = 'vue'
+
+              return `libs/${pkgName}`;
+            }
+          },
+        }
+      },
+    }
   }
   return config;
 })

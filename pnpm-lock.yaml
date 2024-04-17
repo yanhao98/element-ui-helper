@@ -15,7 +15,7 @@ importers:
         specifier: ^4.0.0
         version: 4.17.21
       vue:
-        specifier: ^2.7.0
+        specifier: ^2.7.0 || ^3.0.0
         version: 2.7.16
       vue-request:
         specifier: ^2.0.0

@@ -25,7 +25,7 @@
   "peerDependencies": {
     "element-ui": "^2.15.14",
     "lodash": "^4.0.0",
-    "vue": "^2.7.0",
+    "vue": "^2.7.0 || ^3.0.0",
     "vue-request": "^2.0.0"
   },
   "devDependencies": {

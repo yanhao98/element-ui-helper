@@ -1,4 +1,4 @@
-name: CI
+name: publish-dry-run
 
 on:
   pull_request:
@@ -18,7 +18,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v3
         with:
-          version: 8
+          version: latest
 
       - name: Use Node.js v18
         uses: actions/setup-node@v4
@@ -28,5 +28,7 @@ jobs:
           cache-dependency-path: "./pnpm-lock.yaml"
 
       - run: pnpm install
+
+      - run: npx vitest run
 
       - run: npm publish --dry-run

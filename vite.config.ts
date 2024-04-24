@@ -1,6 +1,7 @@
 /* 
   https://github.com/unplugin/unplugin-vue-components/blob/main/src/core/resolvers/element-ui.ts
 */
+/// <reference types="vitest" />
 
 import vue2 from '@vitejs/plugin-vue2'
 import vue2Jsx from '@vitejs/plugin-vue2-jsx'
@@ -11,6 +12,10 @@ import dts from 'vite-plugin-dts'
 // https://vitejs.dev/config/
 export default defineConfig((env) => {
   const config: UserConfig = {
+    test: {
+      include: ['src/**/__tests__/**/*'],
+      environment: 'jsdom',
+    },
     define: {
       __DEV__: env.command === 'serve',
     },

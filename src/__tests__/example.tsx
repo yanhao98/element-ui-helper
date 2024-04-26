@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { expect, test } from 'vitest';
-import { defineComponent } from "vue";
+import { defineComponent,version } from "vue";
+console.debug(`vue version :>> `, version);
 
 // The component to test
 const MessageComponent = defineComponent({

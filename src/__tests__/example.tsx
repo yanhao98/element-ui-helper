@@ -1,7 +1,6 @@
 import { mount } from '@vue/test-utils';
 import { expect, test } from 'vitest';
 import { defineComponent,version } from "vue";
-console.debug(`vue version :>> `, version);
 
 // The component to test
 const MessageComponent = defineComponent({
@@ -14,6 +13,7 @@ const MessageComponent = defineComponent({
 })
 
 test('displays message', () => {
+    console.debug(`vue version :>> `, version);
     const wrapper = mount(defineComponent({
         setup() {
             return () => {

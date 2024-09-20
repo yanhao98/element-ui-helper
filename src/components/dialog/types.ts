@@ -16,6 +16,7 @@ export interface DialogOptionsRequired {
   showClose: ElDialog['showClose'] | undefined
   closeOnClickModal: ElDialog['closeOnClickModal'] | undefined
   closeOnPressEscape: ElDialog['closeOnPressEscape'] | undefined
+  fullscreen: ElDialog['fullscreen'] | undefined
   /**
    * 对话框内容
    */

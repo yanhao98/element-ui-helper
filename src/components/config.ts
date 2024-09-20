@@ -33,7 +33,8 @@ const dialogDefaultConfig: DialogOptionsRequired = {
   onClose: undefined,
   onClosed: undefined,
   immediateShow: true,
-  destroyAfterClosed: true
+  destroyAfterClosed: true,
+  fullscreen: false,
 }
 
 export const GLOBAL_CONFIG: GlobalConfig = {

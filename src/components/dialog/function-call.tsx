@@ -100,6 +100,7 @@ function createDialog(options: DialogOptions) {
             closeOnClickModal: this.closeOnClickModal,
             closeOnPressEscape: this.closeOnPressEscape,
             customClass: this.customClass,
+            fullscreen: this.fullscreen,
           }}
           on={{
             'update:visible': (visible: boolean) => {

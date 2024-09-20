@@ -1,6 +1,6 @@
 {
   "name": "element-ui-helper",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "A helper for element-ui",
   "type": "module",
   "main": "dist/element-ui-helper.js",
